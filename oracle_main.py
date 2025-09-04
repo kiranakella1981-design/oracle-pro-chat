@@ -7,7 +7,7 @@ from app.ui import pdf_uploader
 from app.pdf_uils import extract_text_from_pdf
 from app.vectorstore_utils import create_faiss_index, retrieve_relevant_docs
 from app.chat_utils import get_chat_model, ask_chat_model
-from app.config import EURON_API_KEY
+#from app.config import EURON_API_KEY
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 
 def get_base64_image(image_path):
