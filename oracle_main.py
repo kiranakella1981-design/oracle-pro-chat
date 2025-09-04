@@ -97,7 +97,7 @@ if "logo_base64" not in st.session_state:
 #<img src="data:image/png;base64,{logo_base64}" alt="Logo" style="height: 60px;">
 st.markdown(f"""
     <div style="display: center; text-align: center; padding: 2rem 0;">
-    <h1 style="color: #ff4b4b; font-size: 3rem; margin-bottom: 0.5rem;"> <img src="data:image/png;base64,{logo_base64}" alt="logo" style="height: 60px;">Chat Professional</h1>
+    <h1 style="color: #ff4b4b; font-size: 3rem; margin-bottom: 0.5rem;"> <img src="data:image/png;base64,{logo_base64}" alt="logo" style="height: 60px;"> Chat Professional</h1>
     <p style="font-size: 1.2rem; color: #666; margin-bottom: 2rem;">Your Intelligent Personal Assistant</p>
 </div>
 """, unsafe_allow_html=True)
