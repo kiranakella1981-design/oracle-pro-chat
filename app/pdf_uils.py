@@ -1,6 +1,9 @@
+import io
+import fitz 
+
 from pypdf import PdfReader
 from typing import List
-import io
+
 
 def extract_text_from_pdf(file) -> str:
     reader = PdfReader(file)
@@ -9,3 +12,6 @@ def extract_text_from_pdf(file) -> str:
         text += page.extract_text() or ''
     return text
     
+def extract_text_fast(pdf_file):
+    doc = fitz.open(stream=pdf_file.read(), filetype="pdf")
+    return "\n".join(page.get_text() for page in doc)

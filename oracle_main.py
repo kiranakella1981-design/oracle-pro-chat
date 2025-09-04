@@ -2,16 +2,16 @@ import streamlit as st
 import time
 import os 
 import base64 
+import fitz
 
 from app.ui import pdf_uploader
-from app.pdf_uils import extract_text_from_pdf
+from app.pdf_uils import extract_text_fast, extract_text_from_pdf
 from app.vectorstore_utils import create_faiss_index, retrieve_relevant_docs
 from app.chat_utils import get_chat_model, ask_chat_model
-#from app.config import EURON_API_KEY
+from app.config import EURON_API_KEY
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 
-EURON_API_KEY = st.secrets["EURON_API_KEY"]
-
+#EURON_API_KEY = st.secrets["EURON_API_KEY"]
 
 def get_base64_image(image_path):
     with open(image_path, "rb") as img_file:
@@ -92,12 +92,9 @@ if "chat_model" not in st.session_state:
 if "logo_base64" not in st.session_state:
     logo_base64 = get_base64_image("app/oracle.png")  # Make sure this path is correct
 
-#print(logo_base64[:100]) 
-#    <div style="text-align: center; padding: 2rem 0;">
-#<img src="data:image/png;base64,{logo_base64}" alt="Logo" style="height: 60px;">
 st.markdown(f"""
     <div style="display: center; text-align: center; padding: 2rem 0;">
-    <h1 style="color: #ff4b4b; font-size: 3rem; margin-bottom: 0.5rem;"> <img src="data:image/png;base64,{logo_base64}" alt="logo" style="height: 60px;"> Chat Professional</h1>
+    <h1 style="color: #ff4b4b; font-size: 3rem; margin-bottom: 0.5rem;"> <img src="data:image/png;base64,{logo_base64}" alt="logo" style="height: 60px;">Chat Professional</h1>
     <p style="font-size: 1.2rem; color: #666; margin-bottom: 2rem;">Your Intelligent Personal Assistant</p>
 </div>
 """, unsafe_allow_html=True)
@@ -118,19 +115,22 @@ with st.sidebar:
                 # Extract text from all PDFs
                 all_texts = []
                 for file in uploaded_files:
-                    text = extract_text_from_pdf(file)
-                    all_texts.append(text)
+                    text = extract_text_fast(file)
+                    #all_texts.append(text)
                 
                 # Split texts into chunks
                 text_splitter = RecursiveCharacterTextSplitter(
-                    chunk_size=1000,
-                    chunk_overlap=200,
+                    chunk_size=500,
+                    chunk_overlap=20,
                     length_function=len,
+                    separators=["\n\n", "\n", ".", " ", ""]
                 )
                 
-                chunks = []
-                for text in all_texts:
-                    chunks.extend(text_splitter.split_text(text))
+                chunks = text_splitter.split_text(text)
+
+#                chunks = []
+#                for text in all_texts:
+#                    chunks.extend(text_splitter.split_text(text))
                 
                 # Create FAISS index
                 vectorstore = create_faiss_index(chunks)
