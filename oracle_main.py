@@ -90,7 +90,7 @@ if "vectorstore" not in st.session_state:
 if "chat_model" not in st.session_state:
     st.session_state.chat_model = None
 if "logo_base64" not in st.session_state:
-    logo_base64 = get_base64_image("app/oracle_logo.png")  # Make sure this path is correct
+    logo_base64 = get_base64_image("app/oracle.png")  # Make sure this path is correct
 
 #print(logo_base64[:100]) 
 #    <div style="text-align: center; padding: 2rem 0;">
