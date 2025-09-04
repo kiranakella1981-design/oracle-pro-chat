@@ -10,6 +10,9 @@ from app.chat_utils import get_chat_model, ask_chat_model
 #from app.config import EURON_API_KEY
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 
+EURON_API_KEY = st.secrets["EURON_API_KEY"]
+
+
 def get_base64_image(image_path):
     with open(image_path, "rb") as img_file:
         return base64.b64encode(img_file.read()).decode()
